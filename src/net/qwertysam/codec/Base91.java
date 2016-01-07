@@ -58,7 +58,17 @@ public class Base91
 			DECODING_TABLE[ENCODING_TABLE[i]] = (byte) i;
 	}
 	
-	public static String encode(byte[] data)
+	public static String encodeToString(byte[] data)
+	{
+		return encodeBytes(data).toString();
+	}
+	
+	public static byte[] encode(byte[] data)
+	{
+		return encodeBytes(data).toByteArray();
+	}
+	
+	private static ByteArrayOutputStream encodeBytes(byte[] data)
 	{
 		int estimatedSize = (int) Math.ceil(data.length * AVERAGE_ENCODING_RATIO);
 		ByteArrayOutputStream output = new ByteArrayOutputStream(estimatedSize);
@@ -98,13 +108,16 @@ public class Base91
 			}
 		}
 		
-		return output.toString();
+		return output;
 	}
 	
 	public static byte[] decode(String dataString)
 	{
-		byte[] data = dataString.getBytes();
-		
+		return decode(dataString.getBytes());
+	}
+	
+	public static byte[] decode(byte[] data)
+	{
 		int dbq = 0;
 		int dn = 0;
 		int dv = -1;
